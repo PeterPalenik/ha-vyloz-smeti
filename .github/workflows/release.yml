@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & upload integration zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync version with release tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          jq --arg v "$VERSION" '.version = $v' \
+            custom_components/vyloz_smeti/manifest.json > /tmp/m.json
+          mv /tmp/m.json custom_components/vyloz_smeti/manifest.json
+          cat custom_components/vyloz_smeti/manifest.json
+
+      - name: Create zip
+        run: |
+          cd custom_components/vyloz_smeti
+          zip -r ../../vyloz_smeti.zip ./
+          cd ../..
+          ls -la vyloz_smeti.zip
+
+      - name: Upload zip to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: vyloz_smeti.zip

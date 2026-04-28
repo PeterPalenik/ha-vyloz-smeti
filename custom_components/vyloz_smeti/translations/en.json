@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vyloz Smeti FCC SK",
+        "description": "Pick the municipality whose waste collection schedule you want to track. The list is fetched from the FCC Vyloz Smeti public API.",
+        "data": {
+          "location_id": "Municipality"
+        },
+        "data_description": {
+          "location_id": "City or town. If multiple municipalities share the same name, the FCC code is shown in parentheses."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to reach the FCC Vyloz Smeti API. Check your internet connection and try again.",
+      "no_locations": "The FCC Vyloz Smeti API returned no municipalities.",
+      "unknown": "Unexpected error. See the Home Assistant logs for details."
+    },
+    "abort": {
+      "already_configured": "This municipality is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Vyloz Smeti options",
+        "description": "Adjust how often Home Assistant refreshes the schedule.",
+        "data": {
+          "update_interval": "Update interval (hours)"
+        },
+        "data_description": {
+          "update_interval": "How often the schedule is refreshed from the API. Allowed range: 1-24 hours."
+        }
+      }
+    }
+  },
+  "entity": {
+    "calendar": {
+      "schedule": {
+        "name": "Schedule"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Failed to reach the FCC Vyloz Smeti API."
+    }
+  }
+}

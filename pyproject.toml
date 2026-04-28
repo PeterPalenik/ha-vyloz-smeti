@@ -1,0 +1,61 @@
+[project]
+name = "ha-vyloz-smeti"
+version = "1.0.0"
+description = "Home Assistant custom integration for the Slovak FCC Vyloz Smeti waste collection schedule"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Peter Palenik" }]
+requires-python = ">=3.13"
+
+[project.urls]
+Homepage = "https://github.com/PeterPalenik/ha-vyloz-smeti"
+Issues = "https://github.com/PeterPalenik/ha-vyloz-smeti/issues"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+src = ["custom_components", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific
+    "PT",   # flake8-pytest-style
+    "TID",  # flake8-tidy-imports
+    "PL",   # pylint
+    "TRY",  # tryceratops
+    "ASYNC",
+    "S",    # bandit
+    "A",    # flake8-builtins
+    "PERF",
+]
+ignore = [
+    "PLR0913",  # too many args - HA APIs require many
+    "TRY003",   # external exception messages are fine
+    "PLR2004",  # magic values - readable inline
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",     # assert is the point of pytest
+    "PLR2004",  # magic numbers in tests are fine
+    "S105",     # hardcoded passwords in tests are fixtures
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]

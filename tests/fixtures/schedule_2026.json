@@ -1,0 +1,7 @@
+[
+  { "wasteId": 1, "date": "2026-04-15T00:00:00" },
+  { "wasteId": 2, "date": "2026-04-22T00:00:00" },
+  { "wasteId": 3, "date": "2026-05-01T00:00:00" },
+  { "wasteId": 4, "date": "2026-06-10T00:00:00" },
+  { "wasteId": 99, "date": "garbage-date-string" }
+]

@@ -1,0 +1,9 @@
+{
+  "wastes": [
+    { "wasteId": 1, "title": "Zmesový odpad" },
+    { "wasteId": 2, "title": "Plasty" },
+    { "wasteId": 3, "title": "Papier" },
+    { "wasteId": 4, "title": "Bioodpad" },
+    { "wasteId": 5, "title": "Sklo" }
+  ]
+}

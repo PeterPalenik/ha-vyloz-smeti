@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vyloz Smeti FCC SK",
+        "description": "Vyberte obec, ktorej harmonogram zvozu odpadu chcete sledovať. Zoznam sa načíta z verejného API FCC Vylož Smeti.",
+        "data": {
+          "location_id": "Obec"
+        },
+        "data_description": {
+          "location_id": "Mesto alebo obec. Ak má viacero obcí rovnaký názov, v zátvorke sa zobrazí FCC kód."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nepodarilo sa pripojiť k FCC Vylož Smeti API. Skontrolujte pripojenie k internetu a skúste znova.",
+      "no_locations": "FCC Vylož Smeti API nevrátilo žiadne obce.",
+      "unknown": "Neočakávaná chyba. Detaily nájdete v logoch Home Assistant."
+    },
+    "abort": {
+      "already_configured": "Táto obec je už nakonfigurovaná."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Nastavenia Vylož Smeti",
+        "description": "Upravte ako často Home Assistant obnovuje harmonogram.",
+        "data": {
+          "update_interval": "Interval aktualizácie (hodiny)"
+        },
+        "data_description": {
+          "update_interval": "Ako často sa harmonogram obnoví z API. Povolený rozsah: 1-24 hodín."
+        }
+      }
+    }
+  },
+  "entity": {
+    "calendar": {
+      "schedule": {
+        "name": "Rozpis"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Nepodarilo sa pripojiť k FCC Vylož Smeti API."
+    }
+  }
+}

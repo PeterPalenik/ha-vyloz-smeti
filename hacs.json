@@ -1,0 +1,9 @@
+{
+  "name": "Vyloz Smeti FCC SK",
+  "content_in_root": false,
+  "render_readme": true,
+  "country": ["SK"],
+  "homeassistant": "2025.1.0",
+  "zip_release": true,
+  "filename": "vyloz_smeti.zip"
+}

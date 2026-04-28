@@ -1,0 +1,8 @@
+[
+  { "locationId": 12345, "city": "Bratislava", "code": "BA-01" },
+  { "locationId": 12346, "city": "Bratislava", "code": "BA-02" },
+  { "locationId": 22222, "city": "Košice",     "code": "KE-01" },
+  { "locationId": 33333, "city": "Nitra",      "code": "NR-01" },
+  { "locationId": 44444, "city": null,         "code": "XX"    },
+  { "locationId": null,  "city": "Invalid",    "code": "X"     }
+]
