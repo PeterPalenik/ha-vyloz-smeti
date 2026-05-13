@@ -40,3 +40,7 @@ coverage.xml
 # OS
 .DS_Store
 Thumbs.db
+
+# Devin / agent working files
+.devin/
+uv.lock

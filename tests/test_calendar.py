@@ -164,6 +164,51 @@ async def test_unparseable_date_is_skipped_not_raised(
 
 
 @pytest.mark.usefixtures("mock_api")
+async def test_async_get_events_returns_all_day_event_for_trigger_window(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    """Regression: HA calendar triggers poll with a sub-day 15-min window.
+
+    The calendar trigger in homeassistant/components/calendar/trigger.py calls
+    `entity.async_get_events(start, end + 1s)` where (start, end) is a
+    15-minute slice shifted by the configured offset. For an all-day event on
+    day D and a non-zero offset, that window lands ON day D and looks like
+    `[D 00:00, D 00:15:01)`. The half-open overlap check must still return
+    the all-day event for the trigger to fire; if `async_get_events` returns
+    `[]` for this query, the calendar trigger silently never fires.
+    """
+    mock_config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    # 2026-04-15 is an all-day event in schedule_2026.json (start=04-15,
+    # end=04-16 because end is exclusive). Simulate the trigger's 15-minute
+    # window landing on 04-15 at LOCAL 00:00, +1s buffer (the trigger always
+    # runs in the configured HA timezone).
+    local_tz = dt_util.get_default_time_zone()
+    response = await hass.services.async_call(
+        CALENDAR_DOMAIN,
+        "get_events",
+        {
+            "entity_id": EXPECTED_ENTITY_ID,
+            "start_date_time": datetime(
+                CURRENT_YEAR, 4, 15, 0, 0, 0, tzinfo=local_tz
+            ).isoformat(),
+            "end_date_time": datetime(
+                CURRENT_YEAR, 4, 15, 0, 15, 1, tzinfo=local_tz
+            ).isoformat(),
+        },
+        blocking=True,
+        return_response=True,
+    )
+    events = response[EXPECTED_ENTITY_ID]["events"]
+    starts = {ev["start"] for ev in events}
+    assert any(s.startswith(f"{CURRENT_YEAR}-04-15") for s in starts), (
+        f"Trigger-style query missed the all-day event; got starts={starts}"
+    )
+
+
+@pytest.mark.usefixtures("mock_api")
 async def test_cache_invalidates_on_coordinator_update(
     hass: HomeAssistant, mock_config_entry: MockConfigEntry
 ) -> None:

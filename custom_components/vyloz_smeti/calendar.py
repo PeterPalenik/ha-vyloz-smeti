@@ -117,10 +117,20 @@ class VylozSmetiCalendar(CoordinatorEntity[VylozSmetiCoordinator], CalendarEntit
         start_date: datetime,
         end_date: datetime,
     ) -> list[CalendarEvent]:
-        """Return events that overlap [start_date, end_date)."""
-        start = start_date.date()
-        end = end_date.date()
-        return [ev for ev in self._events if ev.start < end and ev.end > start]
+        """Return events that overlap [start_date, end_date).
+
+        HA's calendar trigger polls this with a 15-minute window, so we must
+        not collapse the query bounds to dates (the +1s exclusive buffer would
+        be lost and all-day events on the boundary day would be filtered out).
+        Compare in datetime space, treating stored all-day dates as local
+        midnight.
+        """
+        return [
+            ev
+            for ev in self._events
+            if dt_util.start_of_local_day(ev.start) < end_date
+            and dt_util.start_of_local_day(ev.end) > start_date
+        ]
 
     @callback
     def _handle_coordinator_update(self) -> None:
